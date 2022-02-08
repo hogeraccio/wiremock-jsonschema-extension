@@ -18,7 +18,7 @@ dependencies {
 }
 
 group = 'com.github.hogeraccio'
-jar.baseName = rootProject.name
+jar.archiveBaseName = rootProject.name
 version = '0.1'
 
 tasks.named('test') {
@@ -27,10 +27,39 @@ tasks.named('test') {
 
 shadowJar {
     classifier = ''
-    archiveBaseName.set(jar.baseName)
+    archiveBaseName = rootProject.name
 
     relocate "com.fasterxml.jackson.core", 'hogeraccio.com.fasterxml.jackson.core'
     relocate "com.networknt", 'hogeraccio.com.networknt'
 }
 
 jar.finalizedBy shadowJar
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+def renameArtifact(classifier) {
+    def dir = "${buildDir}/${libsDirName}"
+    def filter = "${project.name}-*"
+    def src = "${project.name}-(.+)"
+    def dst = "${rootProject.name}-\$1"
+    copy {
+        from dir
+        into dir
+        include filter
+
+        rename src, dst
+    }
+    delete fileTree(dir) { include filter }
+}
+
+task renameArtifacts {
+    doLast {
+        renameArtifact('javadoc')
+        renameArtifact('sources')
+    }
+}
+
+assemble.finalizedBy renameArtifacts
