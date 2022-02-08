@@ -26,6 +26,7 @@ tasks.named('test') {
 }
 
 shadowJar {
+    classifier = ''
     archiveBaseName.set(jar.baseName)
 
     relocate "com.fasterxml.jackson.core", 'hogeraccio.com.fasterxml.jackson.core'
