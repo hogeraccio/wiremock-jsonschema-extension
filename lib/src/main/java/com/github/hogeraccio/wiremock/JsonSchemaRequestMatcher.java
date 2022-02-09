@@ -11,14 +11,11 @@ import java.util.Set;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.networknt.schema.JsonSchema;
 import com.networknt.schema.JsonSchemaFactory;
-import com.networknt.schema.SpecVersion;
 import com.networknt.schema.SpecVersionDetector;
 import com.networknt.schema.ValidationMessage;
 import com.networknt.schema.SpecVersion.VersionFlag;
 
 public class JsonSchemaRequestMatcher extends RequestMatcherExtension {
-    protected static final VersionFlag DEFAULT_VERSION_FLAG = SpecVersion.VersionFlag.V7;
-
     @Override
     public String getName() {
         return "jsonschema-matcher";
