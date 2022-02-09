@@ -77,8 +77,9 @@ publishing {
         }
     }
     publications {
-        gpr(MavenPublication) {
-            from(components.java)
+        maven(MavenPublication) {
+            artifacts = [shadowJar, javadocJar, sourcesJar]
+            artifactId = rootProject.name
         }
     }
 }
